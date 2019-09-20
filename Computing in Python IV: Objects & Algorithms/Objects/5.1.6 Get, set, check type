@@ -1,0 +1,53 @@
+#Create getters and setters for each variable. Title and description
+#should always be of type str, and completed should always
+#be of type bool. If the value is not the right type, set
+#the value of the corresponding attribute to None.
+
+
+class TodoItem:
+    def __init__(self, title, description, completed=False):
+        self.title = title
+        self.description = description
+        self.completed = completed
+        
+    def getTitle(self):
+        return self.title
+        
+    def getDescription(self):
+        return self.description
+        
+    def getCompleted(self):
+        return self.completed
+    
+    def setTitle(self, title):
+        if not type(title) == str:
+            self.title = None
+            
+        else: 
+            self.title = title        
+    
+    def setDescription(self, description):
+        if not type(description) == str:
+            self.description = None
+        else:    
+            self.description = str(description)  
+     
+    def setCompleted(self, completed = False):
+        if not type(completed) == bool:
+            self.completed = None
+            
+        else:
+            self.completed = completed 
+        
+#Testing:
+
+item = TodoItem("Mow", "Mow the lawn")
+print(item.getTitle())
+print(item.getDescription())
+print(item.getCompleted())
+item.setCompleted(True)
+print(item.getCompleted())
+item.setTitle(False)
+print(item.getTitle())
+
+
