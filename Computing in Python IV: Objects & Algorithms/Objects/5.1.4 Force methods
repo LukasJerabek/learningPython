@@ -1,0 +1,45 @@
+# Create three methods to Force:
+#
+# - get_horizontal should return the horizontal component
+#   of the force, according to the formula:
+#   horizontal = magnitude * cos(angle).
+# - get_vertical should return the vertical component of
+#   the force, according to the formula:
+#   vertical = magnitude * sin(angle).
+# - get_angle should return the angle of the force, but
+#   should have a keyword parameter called use_degrees.
+#   use_degrees should default to True. If use_degrees
+#   is true, it should return the angle in degrees; if it
+#   is false, it should return the angle in radians.
+
+from math import sin, cos, pi, atan2, radians, degrees, sqrt
+
+class Force:
+    def __init__(self, magnitude, angle):
+        self.magnitude = magnitude
+        self.angle = angle
+        
+    def get_horizontal(self):
+        return self.magnitude * cos(radians(self.angle))
+    
+    def get_vertical(self):
+        return self.magnitude * sin(radians(self.angle))
+        
+    def get_angle(self, use_degrees = True):
+                
+        if use_degrees:
+            return self.angle
+        else:
+            return radians(self.angle)   
+
+#Testing:
+
+a_force = Force(500, 60)
+print("Magnitude:", a_force.magnitude)
+print("Horizontal:", a_force.get_horizontal())
+print("Vertical:", a_force.get_vertical())
+print("Angle in Degrees:", a_force.get_angle())
+print("Angle in Radians:", a_force.get_angle(use_degrees = False))
+
+
+
