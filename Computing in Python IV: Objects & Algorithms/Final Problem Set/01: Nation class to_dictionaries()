@@ -1,0 +1,50 @@
+#The Nation class contains 6 attributes:
+#
+# - short_name: The short, common form of a country's name,
+#   such as "Albania".
+# - long_name: The long, official form of a country's name,
+#   such as "Republic of Albania".
+# - iso_code: The numeric code corresponding to the nation,
+#   such as 8.
+# - iso_short: The short abbreviation corresponding to the
+#   nation, such as AL.
+# - iso_long: The long abbreviation corresponding to the
+#   nation, such as ALB.
+# - capital: The capital city, such as Tirana.
+#
+#To let you debug, we've provided you the class here. Your
+#code will have access to this:
+
+class Nation:
+    def __init__(self, short_name, long_name, iso_code, iso_short, iso_long, capital):
+        self.short_name = short_name
+        self.long_name = long_name
+        self.iso_code = iso_code
+        self.iso_short = iso_short
+        self.iso_long = iso_long
+        self.capital = capital
+
+#Write a function called to_dictionaries that will take as
+#input a list of instances of this class. It should return a
+#dictionary of dictionaries. The keys for the dictionaries
+#should be the short names of the nations. The values should
+#be additional dictionaries, each with five keys: long_name,
+#iso_code, iso_short, iso_long, and capital.
+
+def to_dictionaries(nations_list):
+    result = {}
+    for nation in nations_list:
+        result[nation.short_name] = {"long_name": nation.long_name, "iso_code": nation.iso_code, "iso_short": nation.iso_short, "iso_long": nation.iso_long, "capital": nation.capital}
+    return result
+    
+
+#Testing:
+
+new_nation_1 = Nation("Albania", "Republic of Albania", 8, "AL", "ALB", "Tirana")
+new_nation_2 = Nation("Angola", "Republic of Angola", 24, "AO", "AGO", "Luanda")
+nation_list = [new_nation_1, new_nation_2]
+print(to_dictionaries(nation_list))
+
+
+
+
