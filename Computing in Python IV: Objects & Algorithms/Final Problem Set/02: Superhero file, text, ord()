@@ -1,0 +1,38 @@
+#"What's your superhero name?": https://i.imgur.com/TogK8id.png
+#
+#Write a function called generate_name. generate_name should have two parameters (strings).
+#The first string = filename from which to read name parts.
+#The second = individual person's name
+#
+#The first 26 lines in file are for the person's first name
+#The last 26 lines in file are for the person's last name
+#
+#Your function should return the person's name according to
+#the names in the file.
+#
+
+def generate_name(filename, name):
+    my_file = open(filename, "r")
+    
+    name_list = name.split()
+    
+    memes_list = my_file.read().split("\n")
+    
+    first_meme = memes_list[ord(name_list[0][0])-65]
+    second_meme = memes_list[ord(name_list[1][0])-65+26]
+    
+    return first_meme + " " + second_meme
+       
+    my_file.close()
+    
+
+#Testing:
+
+print(generate_name("heronames.txt", "Addison Zook"))
+print(generate_name("heronames.txt", "Uma Irwin"))
+print(generate_name("heronames.txt", "David Joyner"))
+
+
+
+
+
