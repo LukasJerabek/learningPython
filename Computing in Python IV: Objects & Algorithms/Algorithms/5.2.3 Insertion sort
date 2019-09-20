@@ -1,0 +1,22 @@
+def insertion(a_list):
+    
+    new_list = [a_list[0]]
+    
+    for i in range(1, len(a_list)):
+        
+        condition = 0
+        
+        for j in range(len(new_list)): 
+            
+            if new_list[j] > a_list[i]: 
+                
+                new_list.insert(j,a_list[i])                  
+                condition = 1
+                break
+                
+        if condition == 0:
+            new_list.append(a_list[i])
+                
+    
+    return new_list
+                
