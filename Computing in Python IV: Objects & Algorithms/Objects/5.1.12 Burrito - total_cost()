@@ -1,0 +1,14 @@
+#Write a function to use instances of the Burrito class from previous exercises.
+#
+#Write a function called total_cost. total_cost should take
+#as input a list of instances of Burrito, and return the
+#total cost of all those burritos together as a float.
+
+def total_cost(instances_list):
+    
+    result = 0.0
+    
+    for burrito in instances_list:
+        result += burrito.get_cost()
+        
+    return result
