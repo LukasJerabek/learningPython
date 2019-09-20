@@ -1,0 +1,52 @@
+from math import atan2, degrees, radians, sin, cos
+
+#from previous exercise:
+
+class Force:
+    def __init__(self, magnitude, angle):
+        self.magnitude = magnitude
+        self.angle = angle
+        
+    def get_horizontal(self):
+        return self.magnitude * cos(radians(self.angle))
+    
+    def get_vertical(self):
+        return self.magnitude * sin(radians(self.angle))
+        
+    def get_angle(self, use_degrees = True):
+                
+        if use_degrees:
+            return self.angle
+        else:
+            return radians(self.angle)
+            
+# find net force from a list:
+
+def find_net_force(a_list):
+    
+    total_horizontal = 0
+    total_vertical = 0
+    
+    for each in a_list:
+        total_horizontal += each.get_horizontal()
+        total_vertical += each.get_vertical()
+    
+    total = (total_horizontal ** 2 + total_vertical ** 2) ** 0.5
+    angle = degrees(atan2(total_vertical, total_horizontal))
+    
+    return Force(round(total,1), round(angle,1))    
+        
+        
+
+#Testing:
+
+force_1 = Force(50, 90)
+force_2 = Force(75, -90)
+force_3 = Force(100, 0)
+forces = [force_1, force_2, force_3]
+net_force = find_net_force(forces)
+print(net_force.magnitude)
+print(net_force.get_angle())
+
+
+
