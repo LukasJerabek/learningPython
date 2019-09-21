@@ -1,0 +1,168 @@
+#Playfair cipher: https://en.wikipedia.org/wiki/Playfair_cipher
+#starts with a 5x5 matrix of letters:
+#
+# D A V I O
+# Y N E R B
+# C F G H K
+# L M P Q S
+# T U W X Z
+#
+#26-letter alphabet -> 25 letters => I and J merged into one letter.
+#
+#To encrypt:
+#- remove all non-letters and convert the entire message to the same case.
+#- break the message into pairs. Odd number of characters -> add X to the end.
+#- for each pair of letters, locate both letters in the cipher square.
+#
+#For the Same case, we replace the second letter in the pair with X, and then proceed as normal. 
+#For each of the other three cases is different:
+#
+# - For the Rectangle case, we replace each letter with
+#   the letter in the same row, but the other letter's
+#   column. CS would become KL
+# - For the Row case, we pick the letter to the right of
+#   each letter, wrapping around the end of the row if we
+#   need to. PS becomes QL
+# - For the Column case, we pick the letter below each
+#   letter, wrapping around if necessary. LD becomes TY
+#
+#decrypt: You don't need to worry about Js and Is, duplicate
+#letters, or odd numbers of characters in decrypt.
+
+CIPHER = (("D", "A", "V", "I", "O"),
+          ("Y", "N", "E", "R", "B"),
+          ("C", "F", "G", "H", "K"),
+          ("L", "M", "P", "Q", "S"),
+          ("T", "U", "W", "X", "Z"))
+
+def find_letter(letter):
+    
+    for row in range(len(CIPHER)):
+        for column in range(len(CIPHER[row])):
+            if letter == CIPHER[row][column]:
+                return (row,column)
+            
+def string_to_doubles(a_string):
+    
+    a_string = a_string.upper()
+    while "J" in a_string:
+        a_string = a_string.replace("J","I")
+    
+    new_string = ""
+    for char in a_string:
+        if char in "ABCDEFGHIKLMNOPQRSTUVWXYZ":
+                new_string += char            
+        
+    a_string = new_string
+    
+    if len(a_string) % 2 == 1:
+        a_string += "X"
+            
+    count = 1  
+    total_list = []
+        
+    for char in a_string:
+        if count == 1:
+            total_list.append([])
+            total_list[-1].append(char)
+            count += 1
+        elif count == 2:
+            if char == total_list[-1][0]:
+                total_list[-1].append("X")
+                
+            else:
+                total_list[-1].append(char)
+            count = 1
+            
+    return total_list
+
+def encrypt(a_string):
+    
+        
+    total_list = string_to_doubles(a_string)
+    print(total_list)
+    
+    answer = ""
+    
+    for doubles in total_list:
+        row1,column1 = find_letter(doubles[0])
+        row2,column2 = find_letter(doubles[1])
+        
+        if row1 == row2:
+            column1 += 1
+            column2 += 1
+            
+            if column1 > 4:
+                column1 = 0
+                
+            if column2 > 4:
+                column2 = 0
+            
+        elif column1 == column2:
+            row1 += 1
+            row2 += 1
+            
+            if row1 > 4:
+                row1 = 0
+                
+            
+            if row2 > 4:
+                row2 = 0
+        
+        else:
+            temp = column1
+            column1 = column2
+            column2 = temp
+            
+        answer += CIPHER[row1][column1]
+        answer += CIPHER[row2][column2]
+        
+    return answer
+
+    
+def decrypt(a_string):
+    
+    total_list = string_to_doubles(a_string)
+    
+    answer = ""
+    
+    for doubles in total_list:
+        row1,column1 = find_letter(doubles[0])
+        row2,column2 = find_letter(doubles[1])
+        
+        if row1 == row2:
+            column1 -= 1
+            column2 -= 1
+            
+            if column1 < 0:
+                column1 = 4
+                
+            if column2 < 0:
+                column2 = 4
+            
+        elif column1 == column2:
+            row1 -= 1
+            row2 -= 1
+            
+            if row1 < 0:
+                row1 = 4
+                
+            
+            if row2 < 0:
+                row2 = 4
+                
+        else:
+            temp = column1
+            column1 = column2
+            column2 = temp
+            
+        answer += CIPHER[row1][column1]
+        answer += CIPHER[row2][column2]
+        
+    return answer
+
+#Testing:
+
+print(encrypt("parabolic Miltonic"))
+print(decrypt("QLGRQTVZIBTYQZ"))
+
