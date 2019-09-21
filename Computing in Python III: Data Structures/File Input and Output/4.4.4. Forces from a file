@@ -1,0 +1,56 @@
+#Name this new function find_net_force_from_file.
+#The function should take one parameter, the name of a file.
+#The function should return the net magnitude and direction.
+#Each line of the file will have two numbers, both integers:
+#the first number will be the magnitude, and the second
+#number will be the angle (in degrees, from -180 to 180).
+#There will be a space between them.
+
+from math import sin, cos, tan, asin, acos, atan2, radians, degrees, sqrt
+
+def create_list(filename):
+    
+    file = open(filename, "r")
+    
+    each_list = []
+    the_list = []
+    
+    for line in file:
+        each_list = line.split()
+        
+        each_list[0] = int(each_list[0])
+        each_list[1] = int(each_list[1])
+        
+        the_list.append(each_list)
+        
+    file.close()
+    
+    return the_list
+        
+    
+
+def find_net_force_from_file(filename):
+    
+    vectors = create_list(filename)
+        
+    x = 0
+    y = 0 
+
+    for vector in vectors:
+        
+        x += vector[0]*sin(radians(vector[1]))
+        y += vector[0]*cos(radians(vector[1]))
+        
+    magnitude = round(sqrt(x**2+y**2),1)
+    angle = round(degrees(atan2(x,y)),1)
+    
+   
+    return (magnitude, angle)
+
+#Testing:
+
+print(find_net_force_from_file("a_few_angles.txt"))
+
+
+
+
