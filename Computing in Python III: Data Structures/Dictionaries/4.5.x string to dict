@@ -1,0 +1,36 @@
+#Write a new function called length_words so that
+#the returned dictionary maps an integer, the length of a
+#word, to a list of words from the sentence with that length.
+#If a word occurs more than once, add it more than once. The
+#words in the list should appear in the same order in which
+#they appeared in the sentence. Remove any punctuation and make the
+#string lowercase.
+
+def length_words(myString):
+    
+    forbidden = ".,'?!"
+    
+    for punctuation in forbidden:
+        myString = myString.replace(punctuation,"")
+    
+    myString = myString.lower() 
+    mySplitString = myString.split() 
+    
+    aDict = {}
+    
+    for word in mySplitString:
+        if not len(word) in aDict:
+            aDict[len(word)] = []
+        aDict[len(word)].append(word)
+        
+    return aDict
+        
+
+#Testing:
+
+print(length_words("I ate a bowl of cereal out of a dog bowl today."))
+
+
+
+
+
