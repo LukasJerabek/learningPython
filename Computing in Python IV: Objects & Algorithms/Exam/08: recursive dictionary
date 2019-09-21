@@ -1,0 +1,43 @@
+#Write a function called rabbit_hole. rabbit_hole should have
+#two parameters: a dictionary and a string. The string may be
+#a key to the dictionary. The value associated with that key,
+#in turn, may be another key to the dictionary.
+#Keep looking up the keys until you reach a key that has no
+#associated value. Then, return that key.
+#
+#If we called rabbit_hole(d, "bat"), then our code should...
+#
+# - Look up "bat", and find "pig"
+# - Look up "pig", and find "cat"
+# - Look up "cat", and find "dog"
+# - Look up "dog", and find "ant"
+# - Look up "ant", and find no associated value, and so it would
+#   return "ant".
+#
+#if the initial string passed in is not a key in the dictionary, that string should be returned as the result as well.
+#
+#If get into a loop (rabbit_hole(d, "rat")) -> prevent this: a key accessed more than once -> return False
+
+def rabbit_hole(a_dict, a_string):
+        
+    if a_string in a_dict:
+        temp = a_dict[a_string]
+        a_dict[a_string] = False        
+        return rabbit_hole(a_dict, temp)
+    else:
+        return a_string
+
+#Testing:
+
+d = {"bat": "pig", "pig": "cat", "cat": "dog", "dog": "ant",
+     "cow": "bee", "bee": "elk", "elk": "fly", "ewe": "cod",
+     "cod": "hen", "hog": "fox", "fox": "jay", "jay": "doe",
+     "rat": "ram", "ram": "rat"}
+
+print(rabbit_hole(d, "bat"))
+print(rabbit_hole(d, "ewe"))
+print(rabbit_hole(d, "jay"))
+print(rabbit_hole(d, "yak"))
+print(rabbit_hole(d, "rat"))
+
+
