@@ -1,0 +1,28 @@
+#find_median from integers in a file.
+#If there is an even number of values in the file, then
+#find_median should return the average of the two middle
+#values after they're sorted.
+
+def find_median(filename):
+    my_file = open(filename, "r")
+    
+    file_list = []
+    
+    for line in my_file:
+        file_list.append(int(line.strip()))
+     
+    file_list.sort()
+    
+    first = len(file_list)//2
+    second = len(file_list)//2 - 1
+        
+    if len(file_list) % 2 == 1:        
+        return file_list[first]
+    else:
+        return (file_list[first] + file_list[second])/2
+ 
+#Testing:
+
+print(find_median("FindMedianInput.txt"))
+
+
