@@ -1,0 +1,41 @@
+#If the .cs1301 just had these two lines:
+#
+# 1 exam_1 80 100 0.6
+# 2 exam_2 30 50 0.4
+#
+#Then the result would be 72:
+#
+# (80 / 100) * 0.6 + (30 / 50) * 0.4 = 0.72 * 100 = 72
+#Use reader function from previous exercise
+
+def get_grade(filename):
+    a_list = reader(filename)
+    total = 0
+    
+    for line in a_list:
+        total += line[2] / line[3] * line[4]
+       
+    total *= 100
+    
+    return total
+        
+def reader(filename):
+    
+    a_file = open(filename)
+    result = []
+    
+    for line in a_file:
+        
+        line_as_list = line.split()
+        
+        line_as_list[0] = int(line_as_list[0])
+        line_as_list[2] = int(line_as_list[2])
+        line_as_list[3] = int(line_as_list[3])
+        line_as_list[4] = float(line_as_list[4])
+        
+        result.append(tuple(line_as_list))
+    a_file.close()
+    return result
+
+#Testing:
+print(get_grade("sample.cs1301"))
