@@ -1,0 +1,54 @@
+#Write a function called stars that takes in two
+#dictionaries:
+#
+# - movies: a dictionary where the keys are movie titles and
+#   the values are lists of major performers in the movie. For
+#   example: movies["The Dark Knight"] = ["Christian Bale",
+#   "Heath Ledger", "Maggie Gyllenhall", "Aaron Eckhart"]
+# - tvshows: a dictionary where the keys are TV show titles
+#   and the values lists of major performers in the show.
+#   For example: tvshows["Community"] = ["Joel McHale", "Alison
+#   Brie", "Danny Pudi", "Donald Glover", "Yvette Brown"]
+#
+#The function stars should return a new dictionary. The keys
+#of the new dictionary should be the performers' names, and
+#the values for each key should be the list of shows and
+#movies in which that performer has appeared. Sort the shows
+#and movies alphabetically.
+
+def stars(movies, tvshows):
+    
+    bothDict = {**movies, **tvshows}
+        
+    actorDict = {}
+    
+    for (aMovie,actorList) in bothDict.items():
+        for actor in actorList:
+            if not actor in actorDict:
+                actorDict[actor] = []
+            actorDict[actor].append(aMovie)
+            
+    for actor in actorDict:
+        actorDict[actor].sort()
+            
+    return actorDict        
+                
+                
+
+#Testing:
+
+movies = {"How to Be Single": ["Alison Brie", "Dakota Johnson",
+                               "Rebel Wilson"],
+          "The Lego Movie": ["Will Arnett", "Elizabeth Banks",
+                             "Alison Brie", "Will Ferrell"]}
+tvshows = {"Community": ["Alison Brie", "Joel McHale",
+                         "Danny Pudi", "Yvette Brown",
+                         "Donald Glover"],
+           "30 Rock": ["Tina Fey", "Tracy Morgan", "Jack McBrayer",
+                       "Alec Baldwin", "Elizabeth Banks"],
+           "Arrested Development": ["Jason Bateman", "Will Arnett",
+                                    "Portia de Rossi"]}
+print(stars(movies, tvshows))
+
+
+
