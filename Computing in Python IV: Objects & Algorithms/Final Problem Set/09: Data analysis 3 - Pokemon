@@ -1,0 +1,246 @@
+Not about actuall code but being able to answer questions by analysing vast .csv of every pokemon through Generation 7.
+
+.csv columns:
+
+ - Number: The numbered ID of the Pokemon, an integer
+ - Name: The name of the Pokemon, a string
+ - Type1: The Pokemon's primary type, a string
+ - Type2: The Pokemon's secondary type, a string (this
+   may be blank)
+ - HP: The Pokemon's HP statistic, an integer in the range
+   1 to 255
+ - Attack: The Pokemon's Attack statistic, an integer in
+   the range 1 to 255
+ - Defense: The Pokemon's Defense statistic, an integer in
+   the range 1 to 255
+ - SpecialAtk: The Pokemon's Special Attack statistic, an
+   integer in the range 1 to 255
+ - SpecialDef: The Pokemon's Special Defense statistic, an
+   integer in the range 1 to 255
+ - Speed: The Pokemon's Speed statistic, an integer in the
+   range 1 to 255
+ - Generation: What generation the Pokemon debuted in, an
+   integer in the range 1 to 7
+ - Legendary: Whether the Pokemon is considered "legendary"
+   or not, either TRUE or FALSE
+ - Mega: Whether the Pokemon is "Mega" or not, either TRUE
+   or FALSE
+
+Answered questions:
+
+How many Pokemon have only one type? In other words, for how many Pokemon is Type2 blank?
+What is the most common type? Include both Type1 and Type2 in your count.
+What Pokemon has the highest HP statistic?
+Excluding Pokemon that are either Mega or Legendary, what Pokemon has the highest Defense statistic?
+Among Legendary Pokemon, what is the most common type? Include both Type1 and Type2 in your count.
+In terms of the sum of all six stats (HP, Attack, Defense, Special Attack, Special Defense, and Speed), what is the weakest Legendary Pokemon? If there is a tie, list any of the tying Pokemon.
+In terms of the sum of all six stats (HP, Attack, Defense, Special Attack, Special Defense, and Speed), what is the strongest non-Legendary, non-Mega Pokemon? If there is a tie, list any of the tying Pokemon.
+What type has the highest average Speed statistic? Include both Type1 and Type2 in your calculation.
+Rounded to the nearest integer, what is that highest average Speed statistic? Include both Type1 and Type2 in your calculation.
+Among all 7 Pokemon generations, which generation had the highest average sum of all six stats (HP, Attack, Defense, Special Attack, Special Defense, and Speed)?
+Rounded to the nearest integer, how much higher was that statistic than the next-closest generation's average sum of all six stats (HP, Attack, Defense, Special Attack, Special Defense, and Speed)?
+Rounded to the nearest integer, how much higher is the average sum of all six stats among Mega Pokemon than their non-Mega versions? Note that Mega Pokemon share the same Number (the first column) as their non-Mega versions, which will allow you to find all Pokemon that have a Mega version.
+
+Some used code:
+
+
+class Pokemon:
+    def __init__(self, number, name, type1, type2, hp, attack, defense, special_atk, special_def, speed, generation, legendary, mega):
+        self.number = int(number)
+        self.name = name
+        self.type1 = type1
+        self.type2 = type2
+        self.hp = int(hp)
+        self.attack = int(attack)
+        self.defense = int(defense)
+        self.special_atk = int(special_atk)
+        self.special_def = int(special_def)
+        self.speed = int(speed)
+        self.generation = int(generation)
+        self.legendary = legendary
+        self.mega = mega
+        
+    def strength(self):
+        return self.hp+self.attack+self.defense+self.special_atk+self.special_def+self.speed
+               
+def read_file(file):
+    
+    pokemon_list = []
+    
+    for line in file:
+        line_list = line.strip().split(",")
+        if not line_list[0] == "Number":
+            pokemon_list.append(Pokemon(line_list[0],line_list[1],line_list[2],line_list[3],line_list[4],line_list[5],line_list[6],line_list[7],line_list[8],line_list[9],line_list[10],line_list[11],line_list[12]))
+                            
+    return pokemon_list
+
+
+def highest_dict(a_dict):
+    
+    highest = 0
+    
+    for key in a_dict:
+        if a_dict[key] > highest:
+            highest = a_dict[key]
+            highest_key = key
+            
+    return (highest_key, highest)
+  
+def most_common_type(pokemon_list, legendary = False):
+    
+    type_dict = {}
+    
+    if legendary == True:
+        upgraded_pokemon_list = []
+        for pokemon in pokemon_list:
+            if pokemon.legendary == "TRUE":
+                upgraded_pokemon_list.append(pokemon)
+        pokemon_list = upgraded_pokemon_list
+                
+    
+    for pokemon in pokemon_list:
+        if pokemon.type1 in type_dict and not pokemon.type1 == "":
+            type_dict[pokemon.type1] += 1
+            
+        elif not pokemon.type1 == "":
+            type_dict[pokemon.type1] = 1
+            
+        if pokemon.type2 in type_dict and not pokemon.type2 == "":
+            type_dict[pokemon.type2] += 1
+            
+        elif not pokemon.type2 == "":
+            type_dict[pokemon.type2] = 1
+            
+    return highest_dict(type_dict)
+
+def highest_hp(pokemon_list):
+    
+    highest = 0
+    
+    for pokemon in pokemon_list:
+        if int(pokemon.hp) > highest:
+            highest = int(pokemon.hp)
+            poki = pokemon.name
+            
+    return (highest,poki)
+
+def highest_def(pokemon_list):
+    
+    highest = 0
+    
+    for pokemon in pokemon_list:
+        condition3 = int(pokemon.defense) > highest
+        condition1 = pokemon.mega == "FALSE"
+        condition2 = pokemon.legendary == "FALSE"
+        if condition1 and condition2 and condition3:
+            highest = int(pokemon.defense)
+            poki = pokemon.name
+            
+            
+    return (highest,poki)
+
+def weakest_legendary(pokemon_list):
+    
+    lowest = 999999999999
+    
+    for pokemon in pokemon_list:
+        if int(pokemon.strength()) < lowest and pokemon.legendary == "TRUE":
+            lowest = int(pokemon.strength())
+            poki = pokemon.name
+            
+            
+def strongest(pokemon_list):
+    
+    highest = 0
+    
+    for pokemon in pokemon_list:
+        if int(pokemon.strength()) > highest and pokemon.mega == "FALSE" and pokemon.legendary == "FALSE":
+            highest = int(pokemon.strength())
+            poki = pokemon.name
+            
+            
+    return (highest,poki)
+
+def fastest(pokemon_list):
+    
+    type_dict = {}  
+    
+    value_list = []
+    
+    for pokemon in pokemon_list:
+        if pokemon.type1 in type_dict and not pokemon.type1 == "":
+            type_dict[pokemon.type1].append(pokemon.speed)
+            
+        elif not pokemon.type1 == "":
+            type_dict[pokemon.type1] = []
+            type_dict[pokemon.type1].append(pokemon.speed)
+            
+        if pokemon.type2 in type_dict and not pokemon.type2 == "":
+            type_dict[pokemon.type2].append(pokemon.speed)
+            
+        elif not pokemon.type2 == "":
+            type_dict[pokemon.type2] = []
+            type_dict[pokemon.type2].append(pokemon.speed)
+            
+    for key in type_dict:
+        total = 0
+        for value in type_dict[key]:
+            total += value
+        type_dict[key] = total/len(type_dict[key])
+            
+            
+    return highest_dict(type_dict)    
+
+def statest(pokemon_list):
+    
+    gen_dict = {}  
+    
+    value_list = []
+    
+    for pokemon in pokemon_list:
+        if pokemon.generation in gen_dict:
+            gen_dict[pokemon.generation].append(pokemon.strength())
+            
+        elif not pokemon.generation == "":
+            gen_dict[pokemon.generation] = []
+            gen_dict[pokemon.generation].append(pokemon.strength())
+            
+    for key in gen_dict:
+        total = 0
+        for value in gen_dict[key]:
+            total += value
+        gen_dict[key] = total/len(gen_dict[key])
+            
+            
+    return gen_dict
+
+def doubles(pokemon_list):
+    
+    doubles_dict = {}
+    
+    for pokemon in pokemon_list:
+        
+        if pokemon.mega == "TRUE":
+            doubles_dict[pokemon.number] = []
+            doubles_dict[pokemon.number].append(pokemon.strength())
+                
+    for pokemon in pokemon_list:
+        
+        if pokemon.mega == "FALSE" and pokemon.number in doubles_dict: 
+            doubles_dict[pokemon.number].append(pokemon.strength())
+       
+    
+    total_mega = 0
+    total = 0
+    count = 0
+            
+    for key in doubles_dict:
+        if len(doubles_dict[key]) > 1:
+            total_mega += doubles_dict[key][0]
+            
+            total += doubles_dict[key][1]
+            
+            count += 1
+                
+            
+    return total_mega/count - total/count 
