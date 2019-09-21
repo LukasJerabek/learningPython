@@ -1,0 +1,23 @@
+#The file should have an integer on each line. average_file
+#should return the average of these integers. However, if
+#any of the lines of the file are _not_ integers,
+#average_file should return the string "Error reading file!"
+
+def average_file(filename):
+    my_file = open(filename, "r")
+    my_list = my_file.readlines()
+    total = 0
+    try:
+        for each in my_list:
+            total += int(each.strip())
+        return total / len(my_list)
+    except:
+        return "Error reading file!"
+    finally:
+        my_file.close()
+
+#Testing:
+
+print(average_file("valid_file.txt"))
+print(average_file("invalid_file.txt"))
+
