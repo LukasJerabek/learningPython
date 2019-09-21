@@ -1,0 +1,49 @@
+#These are the rules we'll use forour Blackjack-playing AI.
+#The rules are:
+# - The dealer must Hit if their total is below 17.
+# - The dealer must Stay as soon as their total is 17 or
+#   higher.
+# - An Ace (A) should be counted as 11 if it puts the
+#   dealer between 17 and 21 points. If it puts them over
+#   21, though, it should be counted as 1.
+
+#  The function should return one of three strings:
+#
+# - "Hit" if the dealer should take another card.
+# - "Stay" if the dealer should not take another card.
+# - "Bust" if the sum is already over 21.
+
+def next_move(hand):
+       
+    value = 0
+    aces = 0  
+     
+    for letter in hand:
+        if letter in "JQK1":
+            value += 10
+        if letter in "23456789":
+            value += int(letter)
+        if letter == "A":
+            value += 11
+            aces += 1
+        if value >= 21 and aces:
+            value -= 10
+            aces -= 1
+     
+    if value > 21:
+        return "Bust"
+       
+    if value >= 17:
+        return "Stay"
+       
+    if value < 17:
+        return "Hit" 
+        
+#Testing:
+
+print(next_move("A3"))
+print(next_move("A39"))
+print(next_move("A397"))
+print(next_move("A397K"))
+
+
