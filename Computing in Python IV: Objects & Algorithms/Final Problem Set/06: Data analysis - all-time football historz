@@ -1,0 +1,52 @@
+#access to a data set covering Georgia Tech's all-time football history. Each line will describe one game.
+#The columns, from left-to-right, are:
+#
+# - Date: the date of the game, in Year-Month-Day format.
+# - Opponent: the name of the opposing team
+# - Location: Home, Away, or Neutral
+# - Points For: Points scored by Georgia Tech
+# - Points Against: Points scored by the opponent
+#
+#all_time_record should take as input a string representing an opposing team
+#name. It should return a string representing the all-time
+#record between Georgia Tech and that opponent, in the form
+#Wins-Losses-Ties.
+
+
+def all_time_record(opponent):
+    record_file = open('../resource/lib/public/georgia_tech_football.csv', 'r')
+    
+    
+    #Add some code here! Don't forget to close the file when 
+    #you're done reading from it, before returning.
+    
+    wins = 0
+    loses = 0
+    ties = 0
+    
+    for line in record_file:
+        line_list = line.strip().split(",")
+        if line_list[1] == opponent:
+            
+            if int(line_list[3]) > int(line_list[4]):
+                wins += 1
+                
+            if int(line_list[3]) < int(line_list[4]):
+                loses += 1
+                
+            if int(line_list[3]) == int(line_list[4]):
+                ties += 1
+    
+    return str(wins) + "-" + str(loses) + "-" + str(ties)
+
+#Testing:
+
+def all_time_record(opponent):
+    record_file = open('../resource/lib/public/georgia_tech_football.csv', 'r')
+print(all_time_record("Clemson"))
+print(all_time_record("Duke"))
+print(all_time_record("North Carolina"))
+
+
+
+
