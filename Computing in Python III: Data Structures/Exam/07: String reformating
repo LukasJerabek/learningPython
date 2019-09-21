@@ -1,0 +1,29 @@
+#APA citation style cites author names like this:
+#
+#  Last, F., Joyner, D., & Burdell, G.
+#
+#function return a reformatted string according to the style given above.
+#You can assume that the input string will be of the following format:
+#
+#  First Last, David Joyner, and George Burdell
+
+def names_to_apa(a_string):
+    a_string = a_string.replace("and ","")
+    my_list = a_string.split(", ")
+    new_string = ""
+    
+    for name in my_list:
+        
+        if name == my_list[-1]:
+            new_string += "& "
+            
+        new_string += name.split()[1] + ", " + name.split()[0][0] + "."
+        
+        if not name == my_list[-1]:
+            new_string += ", "
+            
+    return new_string
+
+#Testing:
+
+print(names_to_apa("First Last, David Joyner, and George Burdell"))
