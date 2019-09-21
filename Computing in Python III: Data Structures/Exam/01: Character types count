@@ -1,0 +1,59 @@
+#The types of characters in a string that should be handled (and
+#thus, the keys in the dictionary) are:
+#
+# - upper: the count of upper-case or capital letters
+# - lower: the count of lower-case letters
+# - punctuation: the count of punctuation characters.
+#   You may assume this is limited to these punctuation
+#   characters: !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+# - space: the count of spaces
+# - numeral: the count of numerals, 0123456789
+#
+#Note, however, that any type of character that does
+#NOT appear in the string should not be in the dictionary
+#at all.
+
+def count_types(a_string):
+    
+    type_dict = {}
+    
+    for char in a_string:
+        if char in '''!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~''':
+            if not "punctuation" in type_dict:
+                type_dict["punctuation"] = 1
+            else:
+                type_dict["punctuation"] += 1
+            
+        if char == " ":
+            if not "space" in type_dict:
+                type_dict["space"] = 1
+            else:
+                type_dict["space"] += 1
+                    
+        if char in "0123456789":
+            if not "numeral" in type_dict:
+                type_dict["numeral"] = 1
+            else:
+                type_dict["numeral"] += 1
+        
+        if char.islower():
+            if not "lower" in type_dict:
+                type_dict["lower"] = 1
+            else:
+                type_dict["lower"] += 1
+            
+        if char.isupper():
+            if not "upper" in type_dict:
+                type_dict["upper"] = 1
+            else:
+                type_dict["upper"] += 1
+            
+    return type_dict
+
+#Testing:
+
+print(count_types("aabbccc"))
+print(count_types("ABC 123 doe ray me!"))
+
+
+
