@@ -1,0 +1,28 @@
+# Each list in list will be a list of strings, each with a first name and a last
+#name, and each with the same first name.
+#abstract_names should return a dictionary. The keys to the
+#dictionary should be the first names, and the values should
+#be lists of the associated last names. The last names should
+#be sorted alphabetically.
+
+def abstract_names(all_names):
+    
+    result = {}
+    
+    for name_list in all_names:
+        temp_list = []
+        
+        for name in name_list:
+            temp_list.append(name.split()[1])
+            
+        temp_list.sort()    
+        result[name_list[1].split()[0]] = temp_list
+        
+    return result
+
+#Testing:
+
+names = [["David Joyner", "David Tennant", "David Beckham"], ["Ananya Birla", "Ananya Agarwal", "Ananya Chatterjee", "Ananya Roy"], ["Ines Sainz", "Ines Suarez", "Ines Melchor"]]
+print(abstract_names(names))
+
+
