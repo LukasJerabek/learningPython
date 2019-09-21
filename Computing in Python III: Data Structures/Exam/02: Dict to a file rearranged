@@ -1,0 +1,33 @@
+#from dict {Title_1:[Actor_1,...],...} write to the file given by the filename using the following format:
+#
+# Title: Actor 1, Actor 2, Actor 3, etc.
+#
+#The movies and the actor names should be sorted
+#alphabetically.
+
+def write_movie_info(filename, movies_dict):
+    
+    my_file = open(filename, "w")
+    
+    keys_list = []
+    
+    for key in movies_dict:
+        keys_list.append(key)
+        
+    keys_list.sort()
+    
+    for movie in keys_list:
+        movies_dict[movie].sort()
+        my_file.write(movie + ": " + ", ".join(movies_dict[movie]))
+        if not movie == keys_list[-1]:
+            my_file.write("\n")
+        
+    my_file.close()
+    
+#Testing:
+
+movies = {"Chocolat": ["Juliette Binoche", "Judi Dench", "Johnny Depp", "Alfred Molina"], "Skyfall": ["Judi Dench", "Daniel Craig", "Javier Bardem", "Naomie Harris"]}
+write_movie_info("Test.txt", movies)
+
+
+
