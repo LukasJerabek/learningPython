@@ -1,0 +1,41 @@
+#File called "top500.txt" contains the name and lifetime gross revenue of the top 500 films.
+#
+#Write a function called "sort_films". Your function should open the source file and
+#sort the contents from greatest gross revenue to least gross revenue,
+#and write the sorted contents to the destination filename. 
+
+def takeSecond(elem):
+    return elem[1]
+
+def sort_films(filename1, filename2):
+    
+    source = open(filename1, "r")
+    destionation = open(filename2, "w")
+    
+    big_list = []
+    a_list = []
+    
+    for line in source:
+        a_list = line.split("\t")
+        big_list.append(a_list)
+        
+    big_list.sort(key = takeSecond, reverse = True)
+    
+    for line in big_list:
+        print("\t".join(line).strip(), file = destionation)
+        
+    source.close()
+    destionation.close()
+    
+    
+
+
+#Testing:
+
+sort_films("top500.txt", "top500result.txt")
+print("Done!")
+
+
+
+
+
