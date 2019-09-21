@@ -1,0 +1,175 @@
+Not about actuall code but being able to answer questions by analysing vast .csv of all documented baby names each year in the US. 
+
+.csv columns:
+
+- the name
+- the number of times the name was given in the 2010
+- whether the count corresponds to girls or boys
+
+Answered questions:
+
+How many total names are listed in the database?
+How many total births are covered by the names in the database?
+How many different boys' names are there that begin with the letter Z? (Count the names, not the people.)
+What is the most common girl's name that begins with the letter Q?
+How many total babies were given names that both start and end with vowels (A, E, I, O, or U)?
+What letter is the least common first letter of a baby's name (in terms of number of babies with names starting with that letter, not number of names)?
+How many babies were born with names starting with that least-common letter?
+What letter is the most common first letter of a baby's name (in terms of number of babies with names starting with that letter, not number of names)?
+How many babies were born with names starting with that most-common letter?
+By default, the Social Security Administration's data separates out names by gender. For example, Jamie is listed separately for girls and for boys. If you were to remove this separation, what would be the most common name in the 2010s regardless of gender?
+How many people would have that name?
+What name that is used for both genders has the smallest difference in which gender holds the name most frequently? In case of a tie, enter any one of the correct answers.
+
+Some used code:
+
+def births_count(file):
+    count = 0
+
+    for line in names_file:
+        line_list = line.strip().split(",")
+        
+        count += int(line_list[1])
+    
+    return count
+
+def names_count(file):
+    
+    count = 0
+
+    for line in names_file:
+        count += 1
+    
+    return count
+
+def Z_boys_count(file):
+    
+    count = 0
+    
+    for line in file:
+        line_list = line.strip().split(",")
+        if line_list[2] == "Boy":
+            if line_list[0][0] == "Z":
+                count += 1
+                
+    return count
+
+def Q_girl_name(file):
+    
+    highest = 0
+    
+    for line in file:
+        line_list = line.strip().split(",")
+        if int(line_list[1]) > highest and line_list[2] == "Girl" and line_list[0][0] == "Q":
+            highest = int(line_list[1])
+            highest_name = line_list[0]
+                
+    return (highest, highest_name)
+
+def vowels(file):
+    
+    count = 0
+    
+    for line in file:
+        line_list = line.strip().split(",")
+        if line_list[0][0] in "AEIOU":
+            for letter in line_list[0]:
+                last = letter
+                
+            if last in "aeiou":
+                count += int(line_list[1])
+                print(line_list[0])
+            
+                
+    return count
+
+def least_common_letter(file):
+    
+    letter_dict = {}
+    
+    for line in file:
+        line_list = line.strip().split(",")
+        if line_list[0][0] in letter_dict:
+            letter_dict[line_list[0][0]] += int(line_list[1])
+            
+        else:
+            letter_dict[line_list[0][0]] = int(line_list[1])
+            
+    lowest = 99999999999999999999999999999       
+            
+    for key in letter_dict:
+        if letter_dict[key] < lowest:
+            lowest = letter_dict[key]
+            lowest_key = key
+            
+    return ((lowest_key, lowest), letter_dict)
+
+def most_common_letter(file):
+    
+    letter_dict = {}
+    
+    for line in file:
+        line_list = line.strip().split(",")
+        if line_list[0][0] in letter_dict:
+            letter_dict[line_list[0][0]] += int(line_list[1])
+            
+        else:
+            letter_dict[line_list[0][0]] = int(line_list[1])
+            
+    highest = 0       
+            
+    for key in letter_dict:
+        if letter_dict[key] > highest:
+            highest = letter_dict[key]
+            highest_key = key
+            
+    return ((highest_key, highest), letter_dict)
+
+def most_common_name_genderfree(file):
+    
+    letter_dict = {}
+    
+    for line in file:
+        line_list = line.strip().split(",")
+        
+        if line_list[0] in letter_dict:
+            letter_dict[line_list[0]] += int(line_list[1])
+            
+        else:
+            letter_dict[line_list[0]] = int(line_list[1])
+        
+        highest = 0       
+            
+    for key in letter_dict:
+        if letter_dict[key] > highest:
+            highest = letter_dict[key]
+            highest_key = key
+            
+    return ((highest_key, highest), letter_dict)
+
+def doubles(file):
+    
+    letter_dict = {}
+    
+    for line in file:
+        line_list = line.strip().split(",")
+        
+        if line_list[0] in letter_dict:
+            letter_dict[line_list[0]].append(int(line_list[1]))
+            
+        else:
+            letter_dict[line_list[0]] = []
+            letter_dict[line_list[0]].append(int(line_list[1]))
+                
+    smallest = 999999999999999999999999999999999999   
+        
+            
+    for key in letter_dict:
+        if len(letter_dict[key]) > 1:
+            if abs(letter_dict[key][0] - letter_dict[key][1]) < smallest:
+                smallest = abs(letter_dict[key][0] - letter_dict[key][1])
+                smallest_key = key
+                
+            
+    return ((smallest_key, smallest), letter_dict)
+    
