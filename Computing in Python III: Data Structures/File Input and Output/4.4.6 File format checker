@@ -1,0 +1,72 @@
+#Let’s define a new filetype called ".cs1301". 
+#In this file, every line should be structured like so:
+#
+#number assignment_name grade total weight
+#
+#In this file, each component will meet the following
+#description:
+#
+# - number: an integer-like value of the assignment number 
+#
+# - assignment_name: a string value of the assignment name
+#
+# - grade: an integer-like value of a student’s grade
+#
+# - total: an integer-like value of the total possible
+#   number of points
+#
+# - weight: a float-like value ranging from 0 to 1 
+#   representing the percent of the student’s grade this 
+#   assignment is worth. All the weights should add up to 1.
+#
+#Each component should be separated with exactly one space. 
+#
+#Write a function called format_checker - returns True if the file formated correctly.
+#Otherwise return False.
+
+def format_checker(filename):
+    
+    a_file = open(filename)
+    
+    count = 0
+    
+    for line in a_file:
+        line_list = line.split()
+        
+        if not len(line_list) == 5:
+            a_file.close()
+            return False
+        
+        try:
+            int(line_list[0])
+            int(line_list[2])
+            int(line_list[3])
+        except:
+            a_file.close()
+            return False
+        
+        if not ("." in line_list[4]):
+            a_file.close()
+            return False
+        
+        try:
+            count += float(line_list[4])
+        except:
+            a_file.close()
+            return False
+
+    if not count == 1:
+        a_file.close()
+        return False
+    
+    a_file.close()
+    return True
+
+#Testing:
+
+print(format_checker("sample_1.cs1301"))
+print(format_checker("sample_2.cs1301"))
+
+
+
+
