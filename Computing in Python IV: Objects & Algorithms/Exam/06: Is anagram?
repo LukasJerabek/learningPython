@@ -1,0 +1,32 @@
+#Two strings are considered anagrams if they have only the
+#same letters, as well as the same count of each letter. For
+#this problem, you should ignore spaces and capitalization.
+
+def are_anagrams(string1, string2):
+    string1 = string1.lower()
+    string2 = string2.lower()
+    
+    for letter in string1:
+        if letter in string2:
+            index1 = string1.index(letter)
+            index2 = string2.index(letter)
+            string1 = string1[:index1] + string1[index1+1:]
+            string2 = string2[:index2] + string2[index2+1:]
+            
+        else:
+            return False
+    
+    if string1 == "" and string2 == "":
+        return True
+    
+    return False
+    
+#Testing:
+
+print(are_anagrams("Elvis", "Lives"))
+print(are_anagrams("Elvis", "Live Viles"))
+print(are_anagrams("Eleven plus two", "Twelve plus one"))
+print(are_anagrams("Nine minus seven", "Five minus three"))
+
+
+
