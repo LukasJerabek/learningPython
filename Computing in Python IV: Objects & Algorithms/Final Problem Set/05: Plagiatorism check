@@ -1,0 +1,71 @@
+#The function should find if there are any instances of 5 or more
+#consecutive words appearing in both files. If there are,
+#return the longest such string of words (in terms of number
+#of words, not length of the string). If there are not,
+#return the boolean False.
+#
+#only lower-case text and spaces only - not the point here.
+#
+#Be careful: there are a lot of ways to do this problem, but
+#some would be massively time- or memory-intensive. If you
+#get a MemoryError, it means that your solution requires
+#storing too much in memory for the code to ever run to
+#completion. If you get a message that says "KILLED", it
+#means your solution takes too long to run.
+
+def check_plagiarism(filename1,filename2):
+    file1 = open(filename1, "r")
+    file2 = open(filename2, "r")
+    
+    file1_list = file1.read().split()
+    file2_list = file2.read().split()
+    
+    final_fraud = ""
+    
+    
+    for word_index1 in range(len(file1_list)):
+            
+        word_list2 = []
+            
+        for i in range(len(file2_list)):
+            if file1_list[word_index1] == file2_list[i]:
+                word_list2.append(i)
+                
+        if len(word_list2) == 0:
+            continue
+           
+        fraud = ""
+            
+        for word_index2 in word_list2:
+            
+            fraud += file1_list[word_index1]
+            shift = 1
+            
+            try:
+                while file1_list[word_index1+shift] == file2_list[word_index2+shift]:
+                    fraud += " " + file1_list[word_index1+shift]
+                    shift +=1
+            except:
+                pass
+                    
+            if shift >= 5 and len(fraud.split()) > len(final_fraud.split()):
+                final_fraud = fraud
+            fraud = ""        
+    
+    file1.close()
+    file2.close()
+    
+    if not final_fraud == "":
+        return final_fraud       
+    
+    return False
+
+#Testing:
+
+print(check_plagiarism("file_1.txt", "file_2.txt"))
+print(check_plagiarism("file_1.txt", "file_3.txt"))
+print(check_plagiarism("file_2.txt", "file_3.txt"))
+
+
+
+
