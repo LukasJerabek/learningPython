@@ -1,7 +1,7 @@
 #String length recursively without using the built-in 'len()' function.
 
 def measure_string(myStr):
-    if myStr == "": #Complete this line!
-    	return 0 #Complete this line!
+    if myStr == "":
+    	return 0
     else:
-        return 1 + measure_string(myStr[:-1]) #Complete this line!
+        return 1 + measure_string(myStr[:-1])
